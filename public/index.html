@@ -722,7 +722,7 @@
         }
 
         // --- 2. HANDLE REPAIRMAN REGISTRATION ---
-    async function handleRepairmanRegister(event) {
+        async function handleRepairmanRegister(event) {
   event.preventDefault();
 
   const form = event.target;
@@ -731,7 +731,7 @@
   // Convert form data to object
   const data = Object.fromEntries(formData.entries());
 
-  // Collect multiple checkbox values
+  // Get all checked skills (checkboxes)
   data.skills = formData.getAll("skills");
 
   try {
@@ -743,7 +743,7 @@
       body: JSON.stringify(data),
     });
 
-    // Handle non-200 responses
+    // If server returned error status
     if (!response.ok) {
       throw new Error("Server error");
     }
@@ -762,6 +762,7 @@
     showToast("Server Connection Failed");
   }
 }
+
 
         // --- 3. HANDLE TEAM JOINING (FILE UPLOAD) ---
         async function handleJoinTeam(event) {
