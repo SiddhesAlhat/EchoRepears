@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  # Node.js Application
+  node-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.node
+    container_name: fixipy-node-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb+srv://siddesh1234alhat_db_user:YXyQibUYSrDAqxdA@echorepears.2segylf.mongodb.net/fixipy_db?appName=EchoRepears
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID:-rzp_live_Ryw96sIwgA6UD4}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET:-63q68OjleL25W95KeH34fIc7}
+      - TWILIO_SID=${TWILIO_SID:-AC_dummy_sid_123}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN:-dummy_token_123}
+      - TWILIO_WHATSAPP_FROM=${TWILIO_WHATSAPP_FROM:-whatsapp:+14155238886}
+      - ADMIN_WHATSAPP_NUMBER=${ADMIN_WHATSAPP_NUMBER:-whatsapp:+919999999999}
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - fixipy-network
+
+  # Spring Boot Application
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile.spring
+    container_name: fixipy-spring-app
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://siddesh1234alhat_db_user:YXyQibUYSrDAqxdA@echorepears.2segylf.mongodb.net/fixipy_db?appName=EchoRepears
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID:-rzp_live_Ryw96sIwgA6UD4}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET:-63q68OjleL25W95KeH34fIc7}
+      - TWILIO_SID=${TWILIO_SID:-AC_dummy_sid_123}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN:-dummy_token_123}
+      - TWILIO_WHATSAPP_FROM=${TWILIO_WHATSAPP_FROM:-whatsapp:+14155238886}
+      - ADMIN_WHATSAPP_NUMBER=${ADMIN_WHATSAPP_NUMBER:-whatsapp:+919999999999}
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - fixipy-network
+
+networks:
+  fixipy-network:
+    driver: bridge
